@@ -8,8 +8,8 @@ namespace GeneticArt
 {
     public class Triangle
     {
-        Color Color;
-        PointF[] Points;
+        public Color Color;
+        public PointF[] Points;
 
         public Triangle(PointF point0, PointF point1, PointF point2, Color color)
         {
@@ -17,24 +17,24 @@ namespace GeneticArt
             Color = color;
         }
 
-        public void Normalize(float xCoefficient, float yCoefficient)
-        {
-            Points[0].X /= xCoefficient;
-            Points[0].Y /= yCoefficient;
-            Points[1].X /= xCoefficient;
-            Points[1].Y /= yCoefficient;
-            Points[2].X /= xCoefficient;
-            Points[2].Y /= yCoefficient;
-        }
-        public void Unnormalize(float xCoefficient, float yCoefficient)
-        {
-            Points[0].X *= xCoefficient;
-            Points[0].Y *= yCoefficient;
-            Points[1].X *= xCoefficient;
-            Points[1].Y *= yCoefficient;
-            Points[2].X *= xCoefficient;
-            Points[2].Y *= yCoefficient;
-        }
+        //public void Normalize(float xCoefficient, float yCoefficient)
+        //{
+        //    Points[0].X /= xCoefficient;
+        //    Points[0].Y /= yCoefficient;
+        //    Points[1].X /= xCoefficient;
+        //    Points[1].Y /= yCoefficient;
+        //    Points[2].X /= xCoefficient;
+        //    Points[2].Y /= yCoefficient;
+        //}
+        //public void Unnormalize(float xCoefficient, float yCoefficient)
+        //{
+        //    Points[0].X *= xCoefficient;
+        //    Points[0].Y *= yCoefficient;
+        //    Points[1].X *= xCoefficient;
+        //    Points[1].Y *= yCoefficient;
+        //    Points[2].X *= xCoefficient;
+        //    Points[2].Y *= yCoefficient;
+        //}
         private int ConstrainColor(int number, int mutation, int min = 0, int max = 255)
         {
             int result = number + mutation;
@@ -42,8 +42,10 @@ namespace GeneticArt
             if (result > max) return max;
             return result;
         }
-        private float ConstrainImage(float number, float mutation, float min = 0, float max = 100)
+        private float ConstrainPoints(float number, float mutation, int positive, float min = 0, float max = 1)
         {
+            if (positive == 0) mutation *= -1;
+
             float result = number + mutation;
             if (result < min) return min;
             if (result > max) return max;
@@ -52,13 +54,14 @@ namespace GeneticArt
 
         public void DrawTriangle(Graphics graphics, float xCoefficient, float yCoefficient)
         {
-            Unnormalize(xCoefficient, yCoefficient);
             graphics.FillPolygon(new SolidBrush(Color), Points);
         }
 
-        public void Mutate(Random random, float xCoefficient, float yCoefficient)
+        public void Mutate(Random random)
         {
-            if (true) // use a weighed random to mutate color
+            double selectedChance = random.NextDouble();
+
+            if (selectedChance < TriangleArtConstants.MutateColorChance)
             {
                 int mutateeIndex = random.Next(0, 4);
                 int mutateAmount = random.Next(-255, 256);
@@ -79,39 +82,43 @@ namespace GeneticArt
                         break;
                 }
             }
-            else if (true) // use a weigehed random to mutate point
+            else
             {
-                Unnormalize(xCoefficient, yCoefficient);
-
                 int mutateePointIndex = random.Next(0, 4);
                 PointF mutateePoint = Points[mutateePointIndex];
 
                 int mutateeIndex = random.Next(0, 2);
-                int mutateAmount = random.Next(-300, 300);
+                float mutateAmount = (float)random.NextDouble();
+                int mutateDirection = random.Next(0, 2);
 
                 switch (mutateeIndex)
                 {
                     case 0:
-                        mutateePoint.X = ConstrainImage(mutateePoint.X, mutateAmount);
+                        mutateePoint.X = ConstrainPoints(mutateePoint.X, mutateAmount, mutateDirection);
                         break;
                     case 1:
-                        mutateePoint.Y = ConstrainImage(mutateePoint.Y, mutateAmount);  
+                        mutateePoint.Y = ConstrainPoints(mutateePoint.Y, mutateAmount, mutateDirection);  
                         break;
                 }
                 Points[mutateePointIndex] = mutateePoint;
-
-                Normalize(xCoefficient, yCoefficient);
             }
         }
 
-        public void Copy()
+        public Triangle Copy()
         {
+            PointF pointF1 = new PointF(Points[0].X, Points[0].Y);
+            PointF pointF2 = new PointF(Points[1].X, Points[1].Y);
+            PointF pointF3 = new PointF(Points[2].X, Points[2].Y);
 
+            return new Triangle(pointF1, pointF2, pointF3, Color);
         }
 
         public static Triangle RandomTriangle(Random random)
         {
-
+            return new Triangle(new PointF(random.Next(0, 1), random.Next(0, 1)), 
+                                new PointF(random.Next(0, 1), random.Next(0, 1)),
+                                new PointF(random.Next(0, 1), random.Next(0, 1)), 
+                                Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256),random.Next(TriangleArtConstants.MinimumOpacity, 256)));
         }
     }
 }

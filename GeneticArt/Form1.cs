@@ -11,7 +11,7 @@ namespace GeneticArt
         {
             InitializeComponent();
             Input = Graphics.FromImage(InputImage.Image);
-            Output= Graphics.FromImage(OutputImage.Image);
+            Output = Graphics.FromImage(OutputImage.Image);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -35,7 +35,10 @@ namespace GeneticArt
                 InputImage.Image = new Bitmap(fileDirectory.FileName);
             }
 
-            Input = Graphics.FromImage(InputImage.Image);
+            Bitmap? normalizedInputImage = InputImage.Image as Bitmap;
+            normalizedInputImage.SetResolution(1, 1);
+
+            Input = Graphics.FromImage(normalizedInputImage);
         }
     }
 }
