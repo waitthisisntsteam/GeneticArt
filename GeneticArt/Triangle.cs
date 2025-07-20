@@ -42,7 +42,7 @@ namespace GeneticArt
             if (result > max) return max;
             return result;
         }
-        private float ConstrainPoints(float number, float mutation, int positive, float min = 0, float max = 1)
+        private float ConstrainPoints(float number, float mutation, int positive, float min = 0, float max = 100)
         {
             if (positive == 0) mutation *= -1;
 
@@ -84,11 +84,11 @@ namespace GeneticArt
             }
             else
             {
-                int mutateePointIndex = random.Next(0, 4);
+                int mutateePointIndex = random.Next(0, 3);
                 PointF mutateePoint = Points[mutateePointIndex];
 
                 int mutateeIndex = random.Next(0, 2);
-                float mutateAmount = (float)random.NextDouble();
+                float mutateAmount = (float)random.NextDouble() * 100;
                 int mutateDirection = random.Next(0, 2);
 
                 switch (mutateeIndex)
@@ -115,9 +115,9 @@ namespace GeneticArt
 
         public static Triangle RandomTriangle(Random random)
         {
-            return new Triangle(new PointF(random.Next(0, 1), random.Next(0, 1)), 
-                                new PointF(random.Next(0, 1), random.Next(0, 1)),
-                                new PointF(random.Next(0, 1), random.Next(0, 1)), 
+            return new Triangle(new PointF((float)random.NextDouble() * 100, (float)random.NextDouble() * 100), 
+                                new PointF((float)random.NextDouble() * 100, (float)random.NextDouble() * 100),
+                                new PointF((float)random.NextDouble() * 100, (float)random.NextDouble() * 100), 
                                 Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256),random.Next(TriangleArtConstants.MinimumOpacity, 256)));
         }
     }

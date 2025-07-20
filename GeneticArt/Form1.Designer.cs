@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             InputImage = new PictureBox();
             OutputImage = new PictureBox();
             InputLabel = new Label();
             OutputLabel = new Label();
             TransformButton = new Button();
             Arrow = new Label();
+            TrainingTimer = new System.Windows.Forms.Timer(components);
+            StopTrainingButton = new Button();
             ((System.ComponentModel.ISupportInitialize)InputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OutputImage).BeginInit();
             SuspendLayout();
@@ -100,11 +103,27 @@
             Arrow.TabIndex = 5;
             Arrow.Text = "->";
             // 
+            // TrainingTimer
+            // 
+            TrainingTimer.Interval = 10;
+            TrainingTimer.Tick += TrainingTimer_Tick;
+            // 
+            // StopTrainingButton
+            // 
+            StopTrainingButton.Location = new Point(535, 388);
+            StopTrainingButton.Name = "StopTrainingButton";
+            StopTrainingButton.Size = new Size(75, 23);
+            StopTrainingButton.TabIndex = 6;
+            StopTrainingButton.Text = "Stop";
+            StopTrainingButton.UseVisualStyleBackColor = true;
+            StopTrainingButton.Click += StopTrainingButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(StopTrainingButton);
             Controls.Add(Arrow);
             Controls.Add(TransformButton);
             Controls.Add(OutputLabel);
@@ -128,5 +147,7 @@
         private Label OutputLabel;
         private Button TransformButton;
         private Label Arrow;
+        private System.Windows.Forms.Timer TrainingTimer;
+        private Button StopTrainingButton;
     }
 }
