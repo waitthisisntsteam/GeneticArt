@@ -38,7 +38,6 @@ namespace GeneticArt
                     bestIndex = i;
                 }
             }
-
             Population[bestIndex].CopyTo(Population[0]);
             return BestError;
         }

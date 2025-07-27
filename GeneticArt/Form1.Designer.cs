@@ -37,6 +37,7 @@
             Arrow = new Label();
             TrainingTimer = new System.Windows.Forms.Timer(components);
             StopTrainingButton = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)InputImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OutputImage).BeginInit();
             SuspendLayout();
@@ -118,11 +119,21 @@
             StopTrainingButton.UseVisualStyleBackColor = true;
             StopTrainingButton.Click += StopTrainingButton_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(373, 112);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 7;
+            label1.Text = "label1";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(StopTrainingButton);
             Controls.Add(Arrow);
             Controls.Add(TransformButton);
@@ -149,5 +160,6 @@
         private Label Arrow;
         private System.Windows.Forms.Timer TrainingTimer;
         private Button StopTrainingButton;
+        private Label label1;
     }
 }

@@ -67,11 +67,14 @@ namespace GeneticArt
 
         public void CopyTo(TriangleArt other)
         {
-            other.Triangles.Clear();
+            var temp = new List<Triangle>();
+           
             foreach (Triangle trianlge in Triangles)
             {
-                other.Triangles.Add(trianlge.Copy());
+                temp.Add(trianlge.Copy());
             }
+
+            other.Triangles = temp;
         }
 
         public double GetError()
@@ -85,13 +88,11 @@ namespace GeneticArt
                 {
                     var currentPixel = currentImage.GetPixel(x, y);
                     var originalPixel = OriginalImage.GetPixel(x, y);
-
                     errorSum += Math.Pow(
-                                (currentPixel.A - originalPixel.A) +
-                                (currentPixel.R - originalPixel.R) +
-                                (currentPixel.G - originalPixel.G) +
-                                (currentPixel.B - originalPixel.B),
-                                2);
+                               (currentPixel.R - originalPixel.R) +
+                               (currentPixel.G - originalPixel.G) +
+                               (currentPixel.B - originalPixel.B),
+                               2);
                 }
             }
 

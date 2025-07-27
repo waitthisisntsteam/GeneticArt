@@ -6,8 +6,6 @@ namespace GeneticArt
     {
         private GeneticArtTrainer GeneticArtTrainer;
         private Random Random;
-        private int MaxTriangles;
-        private int PopulationSize;
 
         private bool ContinueTransform;
         private bool CurrentlyInTraining;
@@ -17,10 +15,8 @@ namespace GeneticArt
             InitializeComponent();
 
             Random = new Random(5);
-            MaxTriangles = 100;
-            PopulationSize = 100;
 
-            GeneticArtTrainer = new GeneticArtTrainer((Bitmap)InputImage.Image, MaxTriangles, PopulationSize);
+            GeneticArtTrainer = new GeneticArtTrainer((Bitmap)InputImage.Image, TriangleArtConstants.MaximumTriangles, TriangleArtConstants.PopulationSize);
 
             ContinueTransform = false;
             CurrentlyInTraining = false;
@@ -49,7 +45,7 @@ namespace GeneticArt
             Bitmap normalizedInputImage = (Bitmap)InputImage.Image.Clone();
             normalizedInputImage.SetResolution(100, 100);
 
-            GeneticArtTrainer = new GeneticArtTrainer((Bitmap)InputImage.Image, MaxTriangles, PopulationSize);
+            GeneticArtTrainer = new GeneticArtTrainer((Bitmap)InputImage.Image, TriangleArtConstants.MaximumTriangles, TriangleArtConstants.PopulationSize);
         }
 
         private void TrainingTimer_Tick(object sender, EventArgs e)
@@ -57,7 +53,7 @@ namespace GeneticArt
             if (ContinueTransform && !CurrentlyInTraining)
             {
                 CurrentlyInTraining = true;
-                GeneticArtTrainer.Train(Random);
+                label1.Text = GeneticArtTrainer.Train(Random).ToString();
 
                 OutputImage.Image = GeneticArtTrainer.GetBestImage();
                 CurrentlyInTraining = false;
